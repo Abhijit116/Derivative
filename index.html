@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Derivative Calculator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.1.0/math.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 350px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        input {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Derivative Calculator</h1>
+        <form id="derivative-form">
+            <label for="expression">Enter a function or expression(in small letters):</label>
+            <input type="text" id="expression" placeholder="e.g., sin(x) + x^2" required>
+            <button type="submit">Calculate Derivative</button>
+        </form>
+        <div id="result">
+            <!-- Result will be displayed here -->
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('derivative-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const expression = document.getElementById('expression').value;
+            let resultElement = document.getElementById('result');
+            resultElement.textContent = '';
+
+            try {
+                // Ensure that the expression is parsed correctly by replacing common issues
+                // Replace ^ with ** for exponentiation compatibility with math.js and JavaScript
+                const formattedExpression = expression.replace(/\^/g, '**');
+                
+                // Parse the expression using math.js
+                const expr = math.parse(formattedExpression);
+                
+                // Perform the derivative with respect to 'x'
+                const derivative = math.derivative(expr, 'x');
+                
+                // Display the result
+                resultElement.textContent = `Derivative: ${derivative.toString()}`;
+            } catch (error) {
+                // Show error message if there's an issue with parsing or differentiation
+                resultElement.innerHTML = `<span class="error">Error: Invalid expression or function.</span>`;
+            }
+        });
+    </script>
+</body>
+</html>
