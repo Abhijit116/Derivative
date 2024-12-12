@@ -80,8 +80,8 @@
     <div class="container">
         <h1>Derivative Calculator</h1>
         <form id="derivative-form">
-            <label for="expression">Enter a function or expression(in small letters):</label>
-            <input type="text" id="expression" placeholder="e.g., sin(x) + x^2" required>
+            <label for="expression">Enter a function or expression:</label>
+            <input type="text" id="expression" placeholder="e.g., sin(x) + x**2" required>
             <button type="submit">Calculate Derivative</button>
         </form>
         <div id="result">
@@ -98,13 +98,12 @@
             resultElement.textContent = '';
 
             try {
-                // Ensure that the expression is parsed correctly by replacing common issues
-                // Replace ^ with ** for exponentiation compatibility with math.js and JavaScript
+                // Ensure that the expression uses `**` for exponentiation and `x` is treated as a variable
                 const formattedExpression = expression.replace(/\^/g, '**');
                 
-                // Parse the expression using math.js
+                // Use math.js to parse the expression and ensure x is treated as a variable
                 const expr = math.parse(formattedExpression);
-                
+
                 // Perform the derivative with respect to 'x'
                 const derivative = math.derivative(expr, 'x');
                 
